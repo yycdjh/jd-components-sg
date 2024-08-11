@@ -34,6 +34,7 @@ export default Portal;
 
 export function getAttach(attach: PortalProps["attach"]) {
   if (typeof attach === "string") {
+    console.log(attach);
     return document.querySelector(attach);
   }
   if (typeof attach === "object" && attach instanceof window.HTMLElement) {
