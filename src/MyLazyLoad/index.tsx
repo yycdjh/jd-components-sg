@@ -78,9 +78,11 @@ const MyLazyLoad: FC<MyLazyLoadProps> = (props) => {
   };
 
   return (
-    <div ref={containerRef} className={className} style={styles}>
-      {visible ? children : placeholder}
-    </div>
+    <>
+      <div ref={containerRef} className={className} style={styles}>
+        {visible ? children : placeholder}
+      </div>
+    </>
   );
 };
 
