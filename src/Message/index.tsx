@@ -52,25 +52,23 @@ export const MessageProvider: FC<{}> = (props) => {
     <div className="message-wrapper">
       {position.map((direction) => {
         return (
-          <>
-            <TransitionGroup
-              className={`message-wrapper-${direction}`}
-              key={direction}
-            >
-              {messageList[direction].map((item) => {
-                return (
-                  <CSSTransition
-                    key={item.id}
-                    timeout={1000}
-                    classNames="message"
-                  >
-                    {/* <div className="message-item">{item.content}</div> */}
-                    <MessageItem onClose={remove} {...item}></MessageItem>
-                  </CSSTransition>
-                );
-              })}
-            </TransitionGroup>
-          </>
+          <TransitionGroup
+            className={`message-wrapper-${direction}`}
+            key={direction}
+          >
+            {messageList[direction].map((item) => {
+              return (
+                <CSSTransition
+                  key={item.id}
+                  timeout={1000}
+                  classNames="message"
+                >
+                  {/* <div className="message-item">{item.content}</div> */}
+                  <MessageItem onClose={remove} {...item}></MessageItem>
+                </CSSTransition>
+              );
+            })}
+          </TransitionGroup>
         );
       })}
     </div>
