@@ -44,7 +44,7 @@ export const MessageProvider: FC<{}> = (props) => {
       add({
         content: Math.random().toString().slice(2, 8),
       });
-    }, 2000);
+    }, 3000);
   }, []);
 
   const position = Object.keys(messageList) as Position[];
