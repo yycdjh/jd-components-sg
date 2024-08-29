@@ -1,4 +1,12 @@
-import { CSSProperties, FC, ReactNode, useEffect, useMemo } from "react";
+import {
+  CSSProperties,
+  FC,
+  ReactNode,
+  useEffect,
+  useMemo,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import useStore from "./useStore";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
@@ -36,16 +44,32 @@ const MessageItem: FC<MessageProps> = (item) => {
   );
 };
 
-export const MessageProvider: FC<{}> = (props) => {
+export interface MessageRef {
+  add: (messageProps: MessageProps) => number;
+  remove: (id: number) => void;
+  update: (id: number, messageProps: MessageProps) => void;
+  clearAll: () => void;
+}
+
+export const MessageProvider = forwardRef<MessageRef, {}>((props, ref) => {
   const { messageList, add, update, remove, clearAll } = useStore("top");
 
-  useEffect(() => {
-    setInterval(() => {
-      add({
-        content: Math.random().toString().slice(2, 8),
-      });
-    }, 3000);
-  }, []);
+  // useEffect(() => {
+  //   setInterval(() => {
+  //     add({
+  //       content: Math.random().toString().slice(2, 8),
+  //     });
+  //   }, 2000);
+  // }, []);
+
+  useImperativeHandle(ref, () => {
+    return {
+      add,
+      update,
+      remove,
+      clearAll,
+    };
+  });
 
   const position = Object.keys(messageList) as Position[];
   const messageWrapper = (
@@ -84,4 +108,4 @@ export const MessageProvider: FC<{}> = (props) => {
   }, []);
 
   return createPortal(messageWrapper, el);
-};
+});
