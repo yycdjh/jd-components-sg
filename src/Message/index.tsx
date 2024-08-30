@@ -61,15 +61,23 @@ export const MessageProvider = forwardRef<MessageRef, {}>((props, ref) => {
   //     });
   //   }, 2000);
   // }, []);
-
-  useImperativeHandle(ref, () => {
-    return {
+  if ("current" in ref!) {
+    ref.current = {
       add,
       update,
       remove,
       clearAll,
     };
-  });
+  }
+
+  // useImperativeHandle(ref, () => {
+  //   return {
+  //     add,
+  //     update,
+  //     remove,
+  //     clearAll,
+  //   };
+  // });
 
   const position = Object.keys(messageList) as Position[];
   const messageWrapper = (
