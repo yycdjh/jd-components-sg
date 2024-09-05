@@ -2,6 +2,7 @@ import {
   CSSProperties,
   PropsWithChildren,
   ReactNode,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -18,6 +19,7 @@ import {
   useInteractions,
 } from "@floating-ui/react";
 import "./index.css";
+import { createPortal } from "react-dom";
 
 type Alignment = "start" | "end";
 type Side = "top" | "right" | "bottom" | "left";
@@ -75,6 +77,32 @@ export default function Popover(props: PopoverProps) {
     dismiss,
   ]);
 
+  const el = useMemo(() => {
+    const el = document.createElement("div");
+    el.className = "wrapper";
+
+    document.body.appendChild(el);
+    return el;
+  }, []);
+
+  const floating = isOpen && (
+    <div
+      className="popover-floating"
+      ref={refs.setFloating}
+      style={floatingStyles}
+      {...getFloatingProps()}
+    >
+      {content}
+      <FloatingArrow
+        ref={arrowRef}
+        context={context}
+        fill="#fff"
+        stroke="#000"
+        strokeWidth={1}
+      ></FloatingArrow>
+    </div>
+  );
+
   return (
     <>
       <span
@@ -85,23 +113,7 @@ export default function Popover(props: PopoverProps) {
       >
         {children}
       </span>
-      {isOpen && (
-        <div
-          className="popover-floating"
-          ref={refs.setFloating}
-          style={floatingStyles}
-          {...getFloatingProps()}
-        >
-          {content}
-          <FloatingArrow
-            ref={arrowRef}
-            context={context}
-            fill="#fff"
-            stroke="#000"
-            strokeWidth={1}
-          ></FloatingArrow>
-        </div>
-      )}
+      {createPortal(floating, el)}
     </>
   );
 }
