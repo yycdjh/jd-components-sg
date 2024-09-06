@@ -113,7 +113,7 @@ export default function Popover(props: PopoverProps) {
       >
         {children}
       </span>
-      {createPortal(floating, el)}
+      <>{createPortal(floating, el)}</>
     </>
   );
 }
