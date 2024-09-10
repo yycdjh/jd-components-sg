@@ -3,6 +3,7 @@ import cs from "classnames";
 import { Color } from "./color";
 import { ColorType } from "./interface";
 import Palette from "./Palette";
+import "./index.scss";
 
 export interface ColorPickerProps {
   className?: string;

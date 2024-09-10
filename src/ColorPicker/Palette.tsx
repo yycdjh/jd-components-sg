@@ -7,6 +7,7 @@ const Palettle: FC<{
   return (
     <div className="color-picker-panel-palette">
       <div
+        className="color-picker-panel-palette-main"
         style={{
           backgroundColor: `hsl(${color.toHsl().h}, 100%, 50%)`,
           backgroundImage:
