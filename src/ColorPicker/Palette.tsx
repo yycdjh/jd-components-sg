@@ -1,11 +1,13 @@
 import { FC } from "react";
 import { Color } from "./color";
+import Handler from "./Handler";
 
 const Palettle: FC<{
   color: Color;
 }> = ({ color }) => {
   return (
     <div className="color-picker-panel-palette">
+      <Handler color={color.toRgbString()}></Handler>
       <div
         className="color-picker-panel-palette-main"
         style={{
