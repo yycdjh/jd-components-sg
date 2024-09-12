@@ -1,13 +1,32 @@
-import { FC } from "react";
+import { FC, useRef } from "react";
 import { Color } from "./color";
 import Handler from "./Handler";
+import Transform from "./Transform";
+import useColorDrag from "./useColorDrag";
 
 const Palettle: FC<{
   color: Color;
 }> = ({ color }) => {
+  const transformRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const [offset, dragStartHandle] = useColorDrag({
+    containerRef,
+    targetRef: transformRef,
+    onDragChange: (offsetValue) => {
+      console.log(offsetValue);
+    },
+  });
   return (
-    <div className="color-picker-panel-palette">
-      <Handler color={color.toRgbString()}></Handler>
+    <div
+      ref={containerRef}
+      className="color-picker-panel-palette"
+      onMouseDown={dragStartHandle}
+    >
+      <Transform ref={transformRef} offset={{ x: offset.x, y: offset.y }}>
+        <Handler color={color.toRgbString()}></Handler>
+      </Transform>
+      {/* <Handler color={color.toRgbString()}></Handler> */}
       <div
         className="color-picker-panel-palette-main"
         style={{
