@@ -3,18 +3,30 @@ import { Color } from "./color";
 import Handler from "./Handler";
 import Transform from "./Transform";
 import useColorDrag from "./useColorDrag";
+import { calculateColor, calculateOffset } from "./utils";
 
 const Palettle: FC<{
   color: Color;
-}> = ({ color }) => {
+  onChange?: (color: Color) => void;
+}> = ({ color, onChange }) => {
   const transformRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [offset, dragStartHandle] = useColorDrag({
     containerRef,
     targetRef: transformRef,
+    color,
     onDragChange: (offsetValue) => {
-      console.log(offsetValue);
+      const newColor = calculateColor({
+        offset: offsetValue,
+        containerRef,
+        targetRef: transformRef,
+        color,
+      });
+      onChange?.(newColor);
+    },
+    calculate: () => {
+      return calculateOffset(containerRef, transformRef, color);
     },
   });
   return (
