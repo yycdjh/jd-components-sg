@@ -42,8 +42,10 @@ export const Mask: React.FC<MaskProps> = (props) => {
   };
 
   return (
-    <div style={style} className="mask">
-      {getContent()}
-    </div>
+    <>
+      <div style={style} className="mask">
+        {getContent()}
+      </div>
+    </>
   );
 };
